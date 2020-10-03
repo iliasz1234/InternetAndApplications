@@ -1,0 +1,193 @@
+<!Doctype HTML>
+<html>
+<head>
+  <style>
+    .products_container {
+      position:relative;
+      top:50px;
+      border:1px solid black;
+      width:900px;
+      height:400px;
+      margin:auto;
+    }
+
+    .product {
+      float:left;
+      width:300px;
+      height:200px;
+    }
+
+    .product_img {
+      position:relative;
+      float:left;
+      height:100%;
+      width:200px;
+    }
+
+    .product_description {
+      position:relative;
+      float:left;
+      height:100%;
+      width:100px;
+    }
+    
+    .product_basket {
+      position:absolute;
+      top:25px;
+    }
+
+    .product_name {
+      position:absolute;
+      top:50px;
+    }
+
+    .product_price {
+      position:absolute;
+      top:75px;
+    }
+  </style>
+  <script>
+    function show_price_vat(product_id) {
+      product = document.getElementById('product'+product_id);
+      
+      old_price = product.querySelector(".product_price p").textContent;
+      new_price = parseInt(old_price)*1.24+'\u20AC';
+
+      vat_price = document.createElement('p');
+      vat_price.textContent = new_price;
+      vat_price.style = "color:red; font-weight:bold;";
+      
+      vat_option = document.createElement('span');
+      vat_option.textContent = '(with vat)';
+      vat_option.style = "color:red; font-size:12px;"
+
+      product.querySelector(".product_price").appendChild(vat_price);
+      product.querySelector(".product_price span").remove();
+      product.querySelector(".product_price").appendChild(vat_option);
+    }
+   
+    function hide_price_vat(product_id) {
+      product = document.getElementById('product'+product_id);
+      
+      vat_option = document.createElement('span');
+      vat_option.textContent = '(no vat)';
+
+      product.querySelector(".product_price span").remove();
+      product.querySelector(".product_price").children[1].remove();
+      product.querySelector(".product_price").appendChild(vat_option);
+    }
+
+  async function process_product(id){
+    await fetch('processproduct?product='+id, {
+      method: 'GET'
+    });
+    added(id);
+  }
+
+   function buy(product_id) {
+     price = document.getElementById('price'+product_id).textContent;
+     process_product(product_id);
+   }
+
+   function added(product_id){
+     document.getElementById('product'+product_id).querySelector(".product_basket button").textContent = "ADDED";
+   }
+  </script>
+</head>
+<body>
+  <h1 align="center">Products</h1>
+  <div class="products_container">
+    <div class="product" id="product1">
+      <div class="product_img"><img src="images/laptop1.jpeg" style="margin:25px; width:150px; height:150px;"></div>
+      <div class="product_description">
+        <div class="product_basket">
+          <button style="width:75px; height:30px;" onclick=buy(1);>BUY</button>
+        </div>
+        <div class="product_name" >
+          <p>Laptop 1</p>
+        </div>
+        <div class="product_price">
+          <p style="border:1px dashed red" tabindex="0" id="price1" onfocus=show_price_vat(1) onblur=hide_price_vat(1)>500&euro;</p>
+          <span>(no vat)</span>
+        </div>
+      </div>
+    </div>
+    <div class="product" id="product2">
+      <div class="product_img"><img src="images/laptop2.jpeg" style="margin:25px; width:150px; height:150px;"></div>
+      <div class="product_description">
+        <div class="product_basket">
+         <button style="width:75px; height:30px;" onclick=buy(2);>BUY</button>
+        </div>
+        <div class="product_name" >
+          <p align="center">Laptop 2</p>
+        </div>
+        <div class="product_price">
+          <p style="border:1px dashed red" tabindex="0" id="price2" onfocus=show_price_vat(2) onblur=hide_price_vat(2)>1000&euro;</p>
+          <span>(no vat)</span>
+         </div>
+       </div>
+    </div>
+    <div class="product" id="product3">
+      <div class="product_img"><img src="images/laptop3.jpeg" style="margin:25px; width:150px; height:150px;"></div>
+      <div class="product_description">
+        <div class="product_basket">
+   	  <button style="width:75px; height:30px;" onclick=buy(3);>BUY</button>
+        </div>
+        <div class="product_name" >
+          <p align="center">Laptop 3</p>
+        </div>
+        <div class="product_price">
+          <p style="border:1px dashed red" tabindex="0" id="price3" onfocus=show_price_vat(3) onblur=hide_price_vat(3)>1500&euro;</p>
+          <span>(no vat)</span>
+        </div>
+      </div>
+    </div>
+    <div class="product" id="product4">
+      <div class="product_img"><img src="images/desktop1.jpeg" style="margin:25px; width:150px; height:150px;"></div>
+      <div class="product_description">
+        <div class="product_basket">
+          <button style="width:75px; height:30px;" onclick=buy(4);>BUY</button>
+        </div>
+        <div class="product_name" >
+          <p>Desktop 1</p>
+        </div>
+        <div class="product_price">
+          <p style="border:1px dashed red" tabindex="0" id="price4" onfocus=show_price_vat(4) onblur=hide_price_vat(4)>400&euro;</p>
+          <span>(no vat)</span>
+        </div>
+      </div>
+    </div>
+    <div class="product" id="product5">
+      <div class="product_img"><img src="images/desktop2.jpeg" style="margin:25px; width:150px; height:150px;"></div>
+      <div class="product_description">
+        <div class="product_basket">
+          <button style="width:75px; height:30px;" onclick=buy(5);>BUY</button>
+        </div>
+        <div class="product_name" >
+          <p>Desktop 2</p>
+        </div>
+        <div class="product_price">
+          <p style="border:1px dashed red" tabindex="0" id="price5" onfocus=show_price_vat(5) onblur=hide_price_vat(5)>700&euro;</p>
+          <span>(no vat)</span>
+        </div>
+      </div>
+    </div>
+    <div class="product" id="product6">
+      <div class="product_img"><img src="images/desktop3.jpeg" style="margin:25px; width:150px; height:150px;"></div>
+      <div class="product_description">
+        <div class="product_basket">
+         <button style="width:75px; height:30px;" onclick=buy(6);>BUY</button>
+        </div>
+        <div class="product_name" >
+          <p>Desktop 3</p>
+        </div>
+        <div class="product_price">
+          <p style="border:1px dashed red" tabindex="0" id="price6" onfocus=show_price_vat(6) onblur=hide_price_vat(6)>1000&euro;</p>
+          <span>(no vat)</span>
+        </div>
+      </div>
+    </div> 
+  </div>
+</body>
+</html>
+
